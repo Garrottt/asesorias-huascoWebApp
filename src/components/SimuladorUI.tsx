@@ -323,7 +323,7 @@ export default function SimuladorUI({ clientes }: SimuladorUIProps) {
               </div>
               <div>
                 <label className="text-sm font-medium text-slate-400 block mb-1 flex justify-between items-center">
-                  RUT (Opcional)
+                  RUT (Obligatorio)
                   <span className="text-xs text-teal-500/70 italic">Debe incluir guión</span>
                 </label>
                 <input type="text" name="rut" className="w-full bg-slate-950 border border-white/10 rounded-xl px-4 py-3 text-slate-200 outline-none focus:border-teal-500/50" placeholder="Ej: 12345678-9" />
