@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+}
+
+// ==============================
+// 🏢 MODELO DE DATOS PRINCIPAL
+// ==============================
+
+model Asesor {
+  id             String    @id @default(uuid()) // Se vinculará con auth.uid() de Supabase
+  email          String    @unique
+  nombreCompleto String
+  clientes       Cliente[]
+  createdAt      DateTime  @default(now())
+}
+
+model Cliente {
+  id             String       @id @default(uuid())
+  rut            String?      @unique
+  nombreCompleto String
+  asesorId       String
+  asesor         Asesor       @relation(fields: [asesorId], references: [id], onDelete: Cascade)
+  simulaciones   Simulacion[]
+  createdAt      DateTime     @default(now())
+}
+
+model Simulacion {
+  id              String   @id @default(uuid())
+  clienteId       String
+  cliente         Cliente  @relation(fields: [clienteId], references: [id], onDelete: Cascade)
+  
+  formulaVersion  String   @default("v1.0")
+  
+  // Decisión Arquitectónica Fuerte: JSONB nos salva si la ley de AFPs cambia mañana
+  // y nos exige meter 5 parámetros nuevos que no existían.
+  inputsJson      Json     
+  resultsJson     Json     
+  
+  createdAt       DateTime @default(now())
+}
